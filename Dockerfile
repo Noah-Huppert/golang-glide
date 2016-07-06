@@ -8,15 +8,15 @@ WORKDIR /go/src/app
 RUN curl https://glide.sh/get | sh
 
 # Move app into container
-COPY . /go/src/app
+ONBUILD COPY . /go/src/app
 
 # Vendor
-RUN glide update
-RUN glide install
+ONBUILD RUN glide update
+ONBUILD RUN glide install
 
 # Build
-RUN rm -rf build
-RUN mkdir -p build && cd build && go build ..
+ONBUILD RUN rm -rf build
+ONBUILD RUN mkdir -p build && cd build && go build ..
 
 # Run
 CMD ["build/app"]
